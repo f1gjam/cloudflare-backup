@@ -21,13 +21,20 @@ def main():
 
     # grab the zone identifier
     try:
-        zones = cf.zones.get(params=params)
+        response = cf.zones.get(params = {'per_page':50})
+        total_pages = response['result_info']['total_pages']
+        page = 0
+        zones = []
+        while page <= total_pages:
+            page += 1
+            response = cf.zones.get(params={'page': page, 'per_page': 50})
+            zones.extend(response['result'])
     except CloudFlare.CloudFlareAPIError as e:
         exit('/zones %d %s - api call failed' % (e, e))
     except Exception as e:
         exit('/zones.get - %s - api call failed' % (e))
 
-    # there should only be one zone
+
     for zone in sorted(zones, key=lambda v: v['name']):
         zone_name = zone['name']
         zone_id = zone['id']
@@ -38,7 +45,8 @@ def main():
         zone_plan = zone['plan']['name']
 
         try:
-            dns_records = cf.zones.dns_records.get(zone_id)
+            response = cf.zones.dns_records.get(zone_id)
+            dns_records = response['result']
         except CloudFlare.CloudFlareAPIError as e:
             exit('/zones/dns_records %d %s - api call failed' % (e, e))
 

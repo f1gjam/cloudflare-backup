@@ -9,46 +9,62 @@ def connect():
 
 
 def get_zones(cf):
-    zones = cf.zones.get(params = {'per_page':50})
-    return zones
+    response = cf.zones.get(params={'per_page': 50})
+    return response
 
 
-def get_records_per_zone(cf, zones):
+def get_records_per_zone(cf, response):
+    total_pages = response['result_info']['total_pages']
+    page = 0
+    zones = []
+    sorted_dns_records = {}
+
+    while page <= total_pages:
+        page += 1
+        response = response = cf.zones.get(params={'page': page, 'per_page': 50})
+        zones.extend(response['result'])
+
     for zone in zones:
         zone_name = zone['name']
         zone_id = zone['id']
 
-        print 'Getting DNS records for zone: %s' % zone
-        try:
-            dns_records = cf.zones.dns_records.get(zone_id)
-        except Exception as e:
-            exit('/zones.dns_records.get %s - %d %s' % (zone_name, e, e))
+        print 'Getting DNS records for zone: %s' % zone_name
+        response = cf.zones.dns_records.get(zone_id, params={'per_page': 50})
+        total_pages = response['result_info']['total_pages']
+        page = 0
+        dns_records = []
+
+        while page <= total_pages:
+            page += 1
+            response = cf.zones.dns_records.get(zone_id, params={'page': page, 'per_page': 50})
+            dns_records.extend(response['result'])
 
         record_list = []
-        for dns_record in sorted(dns_records, key=lambda v: v['name']):
-            single_record = {dns_record['name']: {
-                'id': dns_record['id'],
-                'type': dns_record['type'],
-                'ttl': dns_record['ttl'],
-                'content': dns_record['content'],
-                'proxied': dns_record['proxied'],
-                'proxiable': dns_record['proxiable']
+        for dns_records in sorted(dns_records, key=lambda v: v['name']):
+            single_record = {dns_records['name']: {
+                'id': dns_records['id'],
+                'type': dns_records['type'],
+                'ttl': dns_records['ttl'],
+                'content': dns_records['content'],
+                'proxied': dns_records['proxied'],
+                'proxiable': dns_records['proxiable']
                 }
             }
 
             record_list.append(single_record)
+            sorted_dns_records[zone_name] = record_list
 
-        sorted_dns_records = {zone_name: record_list}
-
-        return sorted_dns_records
+    return sorted_dns_records
 
 
 def convert_to_yaml(dns_records):
-
-    filename = '/tmp/cloudflare-backup-data-' + str(datetime.datetime.utcnow()) + '.yml'
+    format = "%d-%m-%Y.%H:%M:%S"
+    # filename = '/tmp/cloudflare-backup-data-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
+    filename = '/tmp/cloudflare-backup-data.yml'
     with open(filename, 'w') as outfile:
         yaml.safe_dump(dns_records, outfile, default_flow_style=False)
-    #print(yaml.safe_dump(dns_records, default_flow_style=False))
+        # print(yaml.safe_dump(dns_records, default_flow_style=False))
+
 
 def main():
     cf = connect()
@@ -56,6 +72,6 @@ def main():
     sorted_dns_records = get_records_per_zone(cf, zones)
     convert_to_yaml(sorted_dns_records)
 
+
 if __name__ == '__main__':
     main()
-
