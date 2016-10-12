@@ -48,7 +48,7 @@ def get_records_per_zone(cf, response):
                 'content': dns_records['content'],
                 'proxied': dns_records['proxied'],
                 'proxiable': dns_records['proxiable']
-                }
+            }
             }
 
             record_list.append(single_record)
@@ -58,12 +58,13 @@ def get_records_per_zone(cf, response):
 
 
 def convert_to_yaml(dns_records):
-    format = "%d-%m-%Y.%H:%M:%S"
-    # filename = '/tmp/cloudflare-backup-data-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
-    filename = '/tmp/cloudflare-backup-data.yml'
-    with open(filename, 'w') as outfile:
-        yaml.safe_dump(dns_records, outfile, default_flow_style=False)
-        # print(yaml.safe_dump(dns_records, default_flow_style=False))
+    for zone_name in dns_records:
+        #format = "%d-%m-%Y.%H:%M:%S"
+        # filename = '/tmp/cloudflare-backup-data-'  + zone_name + '-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
+        filename = '/tmp/cloudflare-backup-data-' + zone_name + '.yml'
+        with open(filename, 'w') as outfile:
+            yaml.safe_dump(dns_records[zone_name], outfile, default_flow_style=False)
+            print('created file for: ' + zone_name + ' : ' + filename)
 
 
 def main():
