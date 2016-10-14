@@ -6,7 +6,7 @@ It will also allow the restoration of a backup.
 Master Branch = Current stable release
 Develop Branch = Latest development snapshot
 
-*NOTE: This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
+*NOTE* This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
 (https://github.com/cloudflare/python-cloudflare). A simple change was made to the original to ensure a full response was returned.
 
 ## How to use ##
