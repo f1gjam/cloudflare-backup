@@ -1,17 +1,47 @@
 #Cloudflare-Backup
 
-This Python script allows Metapack to configure a single or multiple records and backup the configuration.
-It will also allow the restoration of a backup.
+This Python script allows you to backup your Cloudflare configuration. This includes all Zones, DNS records and associated rules.
 
-Master Branch = Current stable release
-Develop Branch = Latest development snapshot
 
 **NOTE:** This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
 (https://github.com/cloudflare/python-cloudflare). A simple change was made to the original to ensure a full response was returned.
 
-##How to use
 
-Create a credentials file under: `~/.cloudflare/cloudflare.cfg` (This should be under the user who will execute the script)
+##Installation
+### Pre-requisites
+Ensure that the following items are installed on your machine which will execute this script. Also ensure you have permissions to clone the repositories.
+
+`git`
+`python 2.7`
+`pip`
+
+Clone the following python repositories 
+
+`git clone git@github.com:f1gjam/python-cloudflare.git`
+`git clone git@github.com:f1gjam/cloudflare-backup.git`
+
+Now you can install the modified module
+
+`cd python-cloudflare`
+`./setup.py build`
+`sudo ./setup.py install`
+
+
+Create the Cloudflare configuration directory and file (This should be under the user who will execute the script)
+**DO NOT CHANGE THE LOCATION OF THE FILE**
+
+`mkdir ~/.cloudflare/`
+`nano -w ~/.cloudflare/cloudflare.cfg` - you can use whichever editor you like
+
+**Example contents for the file below**
+```
+[CloudFlare]
+email = my_cloudflare_email@somewhere.com
+token = jkhwj24h9812h12jkdwuykk2108721321asdl
+certtoken = v1.0-...
+```
+
+##How to use
 
 `python <path to script>/cloudflare-backup.py`
 
