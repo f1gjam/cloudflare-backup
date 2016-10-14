@@ -6,13 +6,22 @@ It will also allow the restoration of a backup.
 Master Branch = Current stable release
 Develop Branch = Latest development snapshot
 
-**NOTE** This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
+**NOTE:** This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
 (https://github.com/cloudflare/python-cloudflare). A simple change was made to the original to ensure a full response was returned.
 
-## How to use ##
+##How to use
 
 Create a credentials file under: `~/.cloudflare/cloudflare.cfg` (This should be under the user who will execute the script)
 
 `python <path to script>/cloudflare-backup.py`
 
-The script will read ALL dns zones and extract all records to a file under /tmp/cloud
+The script will read ALL dns zones and associated records and rules and create two file
+
+`/tmp/cloudflare-backup-dns-records-data-<domain>.yml`
+`/tmp/cloudflare-backup-rule-<domain>.yml`
+
+
+##Known Issues
+
+The API call for extracting rules is currently in BETA. There is no pagination available (although the cloudflare
+documentation states the response contains this information). Contacted Cloudflare and they are looking into the issue.
