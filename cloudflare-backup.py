@@ -4,7 +4,7 @@ import datetime
 
 
 def connect():
-    cf = CloudFlare.CloudFlare()
+    cf = CloudFlare.CloudFlare(raw=True)
     return cf
 
 
@@ -21,7 +21,7 @@ def get_records_per_zone(cf, response):
 
     while page <= total_pages:
         page += 1
-        response = response = cf.zones.get(params={'page': page, 'per_page': 50})
+        response = cf.zones.get(params={'page': page, 'per_page': 50})
         zones.extend(response['result'])
 
     for zone in zones:
@@ -64,7 +64,7 @@ def get_rules_per_zone(cf, response):
 
     while page <= total_pages:
         page += 1
-        response = response = cf.zones.get(params={'page': page, 'per_page': 50})
+        response = cf.zones.get(params={'page': page, 'per_page': 50})
         zones.extend(response['result'])
 
     for zone in zones:
