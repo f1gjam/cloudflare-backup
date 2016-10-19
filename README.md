@@ -3,9 +3,7 @@
 This Python script allows you to backup your Cloudflare configuration. This includes all Zones, DNS records and associated rules.
 
 
-**NOTE:** This script uses the [python-cloudflare](https://github.com/f1gjam/python-cloudflare) module. This is the modified version of [the original repo]
-(https://github.com/cloudflare/python-cloudflare). A simple change was made to the original to ensure a full response was returned.
-
+**NOTE:** This script uses the [python-cloudflare](https://github.com/cloudflare/python-cloudflare).
 
 ##Installation
 ### Pre-requisites
@@ -17,15 +15,11 @@ Ensure that the following items are installed on your machine which will execute
 
 Clone the following python repositories 
 
-`git clone git@github.com:f1gjam/python-cloudflare.git`
 `git clone git@github.com:f1gjam/cloudflare-backup.git`
 
-Now you can install the modified module
+Now you can install the cloudflare python module
 
-`cd python-cloudflare`
-`./setup.py build`
-`sudo ./setup.py install`
-
+`pip install cloudflare`
 
 Create the Cloudflare configuration directory and file (This should be under the user who will execute the script)
 **DO NOT CHANGE THE LOCATION OF THE FILE**
