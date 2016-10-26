@@ -108,11 +108,11 @@ def get_rules_per_zone(cf, response):
 
 
 
-def convert_to_yaml(records, type):
+def convert_to_yaml(records, r_type):
     for zone_name in records:
         #format = "%d-%m-%Y.%H:%M:%S"
         # filename = '/tmp/cloudflare-backup-data-'  + zone_name + '-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
-        filename = '/tmp/cloudflare-backup-' + type + '-data-' + zone_name + '.yml'
+        filename = '/tmp/cloudflare-backup-' + r_type + '-data-' + zone_name + '.yml'
         with open(filename, 'w') as outfile:
             yaml.safe_dump(records[zone_name], outfile, default_flow_style=False)
             print('created file for: ' + zone_name + ' : ' + filename)
