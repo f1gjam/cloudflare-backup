@@ -37,7 +37,7 @@ certtoken = v1.0-...
 
 ##How to use
 
-`python <path to script>/cloudflare-backup.py`
+`python <path to script>/cloudflare_backup.py`
 
 The script will read ALL dns zones and associated records and rules and create two file
 

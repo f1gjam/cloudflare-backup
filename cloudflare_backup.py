@@ -36,7 +36,8 @@ def get_records_per_zone(cf, response):
 
         while page <= total_pages:
             page += 1
-            response = cf.zones.dns_records.get(zone_id, params={'page': page, 'per_page': 50})
+            response = cf.zones.dns_records.get(
+                zone_id, params={'page': page, 'per_page': 50})
             dns_records.extend(response['result'])
 
         record_list = []
@@ -55,6 +56,7 @@ def get_records_per_zone(cf, response):
             sorted_dns_records[zone_name] = record_list
 
     return sorted_dns_records
+
 
 def get_rules_per_zone(cf, response):
     total_pages = response['result_info']['total_pages']
@@ -95,17 +97,16 @@ def get_rules_per_zone(cf, response):
 
                 for actions in pagerules['actions']:
                     action_list.append(actions)
-                single_record = {pagerules['targets'][0]['constraint']['value']: {
-                    'id': pagerules['id'],
-                    'status': pagerules['status'],
-                    'actions': action_list}
-                }
+                single_record = {
+                    pagerules['targets'][0]['constraint']['value']: {
+                        'id': pagerules['id'],
+                        'status': pagerules['status'],
+                        'actions': action_list}}
 
                 rules_list.append(single_record)
                 sorted_rules[zone_name] = rules_list
 
     return sorted_rules
-
 
 
 def convert_to_yaml(records, r_type):
@@ -114,7 +115,10 @@ def convert_to_yaml(records, r_type):
         # filename = '/tmp/cloudflare-backup-data-'  + zone_name + '-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
         filename = '/tmp/cloudflare-backup-' + r_type + '-data-' + zone_name + '.yml'
         with open(filename, 'w') as outfile:
-            yaml.safe_dump(records[zone_name], outfile, default_flow_style=False)
+            yaml.safe_dump(
+                records[zone_name],
+                outfile,
+                default_flow_style=False)
             print('created file for: ' + zone_name + ' : ' + filename)
 
 
