@@ -1,5 +1,7 @@
 #Cloudflare-Backup
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5a781339ad7f4a78814ed6edbb16fd40)](https://www.codacy.com/app/kashif/cloudflare-backup?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=f1gjam/cloudflare-backup&amp;utm_campaign=Badge_Grade)
+
 This Python script allows you to backup your Cloudflare configuration. This includes all Zones, DNS records and associated rules.
 
 
