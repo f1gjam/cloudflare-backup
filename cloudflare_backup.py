@@ -1,6 +1,6 @@
 import CloudFlare
 import yaml
-#import datetime
+import datetime
 
 
 def connect():
@@ -111,8 +111,9 @@ def get_rules_per_zone(cf, response):
 
 def convert_to_yaml(records, r_type):
     for zone_name in records:
-        #format = "%d-%m-%Y.%H:%M:%S"
-        # filename = '/tmp/cloudflare-backup-data-'  + zone_name + '-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
+        format = "%d-%m-%Y.%H:%M:%S"
+        current_date_time = str(datetime.datetime.utcnow().strftime(format))
+	# filename = '/tmp/cloudflare-backup-data-'  + zone_name + '-' + str(datetime.datetime.utcnow().strftime(format)) + '.yml'
         filename = '/tmp/cloudflare-backup-' + r_type + '-data-' + zone_name + '.yml'
         with open(filename, 'w') as outfile:
             yaml.safe_dump(
